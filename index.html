@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lovel Española - Portfolio</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        line-height: 1.6;
+        color: #000000;
+        background-color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      /* Loading Screen */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+
+      .loading-content {
+        text-align: center;
+        color: #000000;
+      }
+
+      .loading-text {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .loading-bar {
+        width: 200px;
+        height: 4px;
+        background-color: #e0e0e0;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+
+      .loading-progress {
+        height: 100%;
+        background-color: #000000;
+        animation: loading 2s ease-in-out infinite;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes loading {
+        0% {
+          width: 0%;
+        }
+        50% {
+          width: 50%;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+
+      /* Navbar */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #000;
+        padding: 1rem 2rem;
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        color: #ffffff;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .nav-menu {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-menu li {
+        margin-left: 2rem;
+      }
+
+      .nav-menu a {
+        color: #e0e0e0;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .nav-menu a:hover {
+        color: #ffffff;
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: #e0e0e0;
+        margin: 3px 0;
+        transition: 0.3s;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: -300px;
+        width: 300px;
+        height: 100%;
+        background-color: #ffffff;
+        padding: 2rem;
+        transition: right 0.3s ease;
+        z-index: 1001;
+        border-left: 1px solid #e0e0e0;
+      }
+
+      .sidebar.active {
+        right: 0;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        margin-top: 3rem;
+      }
+
+      .sidebar ul li {
+        margin-bottom: 1rem;
+      }
+
+      .sidebar ul a {
+        color: #000000;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+      }
+
+      .sidebar ul a:hover {
+        color: #666666;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        color: #000000;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+
+      /* Sections */
+      section {
+        min-height: 100vh;
+        padding: 5rem 2rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      /* Home Section */
+      #home {
+        background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+        color: #000000;
+      }
+
+      .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #000000;
+      }
+
+      .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background-color: #000000;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #333333;
+      }
+
+      /* About Me Section */
+      #about {
+        background-color: #ffffff;
+        color: #000000;
+      }
+
+      .about-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .about-text {
+        flex: 1;
+        min-width: 300px;
+        text-align: left;
+      }
+
+      .about-text h2 {
+        color: #000000;
+        margin-bottom: 1rem;
+      }
+
+      .about-image {
+        flex: 1;
+        min-width: 300px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;
+      }
+
+      .about-image img {
+        width: 100%;
+        height: auto;
+        max-width: 450px;
+        max-height: 500px;
+        border-radius: 5px;
+        object-fit: cover;
+      }
+
+      .about-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .info-item {
+        text-align: left;
+        background-color: rgba(0, 0, 0, 0.05);
+        padding: 1rem;
+        border-left: 3px solid #000000;
+        border-radius: 5px;
+      }
+
+      .info-item strong {
+        color: #000000;
+      }
+
+      /* Skills Section */
+      #skills {
+        background-color: #ffffff;
+        color: #000000;
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .skill-item {
+        background-color: #f5f5f5;
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid #e0e0e0;
+      }
+
+      .skill-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 1rem;
+        object-fit: contain;
+      }
+
+      .skill-item h3 {
+        color: #000000;
+        margin-bottom: 1rem;
+      }
+
+      /* Projects Section */
+      #projects {
+        background-color: #f5f5f5;
+        color: #000000;
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .project-item {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: center;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        border: 1px solid #e0e0e0;
+      }
+
+      .project-image {
+        width: 100%;
+        height: 200px;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        object-fit: cover;
+        background-color: #f5f5f5;
+      }
+
+      .project-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .project-item h3 {
+        color: #000000;
+        margin-bottom: 1rem;
+      }
+
+      .project-item p {
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .project-tech span {
+        background-color: #000000;
+        color: #ffffff;
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+
+      .project-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .project-links .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      /* Certificate Section */
+      #certificate {
+        background-color: #ffffff;
+        color: #000000;
+      }
+
+      .certificates {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .certificate-item {
+        background-color: #f5f5f5;
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid #e0e0e0;
+        width: 480px;
+      }
+
+      .certificate-image {
+        width: 100%;
+        height: 200px;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        object-fit: cover;
+        background-color: #e0e0e0;
+      }
+
+      .certificate-item h3 {
+        color: #000000;
+        margin-bottom: 1rem;
+      }
+
+      /* Contact Section */
+      #contact {
+        background-color: #f5f5f5;
+        color: #000000;
+      }
+
+      .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .contact-form input,
+      .contact-form textarea {
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        color: #000000;
+        border-radius: 5px;
+      }
+
+      .contact-form button {
+        width: 100%;
+        padding: 1rem;
+        background-color: #000000;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .contact-form button:hover {
+        background-color: #333333;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .skills-grid,
+        .projects-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .skills-grid,
+        .projects-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .skills-grid,
+        .projects-grid {
+          grid-template-columns: repeat(1, 1fr);
+        }
+        .certificate-item {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .hamburger {
+          display: flex;
+        }
+
+        .hero-content h1 {
+          font-size: 2rem;
+        }
+
+        .about-content {
+          flex-direction: column;
+        }
+
+        .about-text {
+          text-align: center;
+        }
+
+        .about-image {
+          min-height: auto;
+          margin-top: 2rem;
+        }
+
+        .about-image img {
+          max-width: 300px;
+          max-height: 300px;
+        }
+      }
+
+      /* Animations */
+      .fade-in {
+        animation: fadeInUp 1s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      footer {
+        background-color: #000;
+        color: #e0e0e0;
+        padding: 2rem 0;
+        text-align: center;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .footer-content h3 {
+        color: #ffffff;
+        margin-bottom: 1rem;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: #e0e0e0;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #ffffff;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid #333;
+        padding-top: 1rem;
+        margin-top: 1rem;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .social-links a {
+        color: #ffffff;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #cccccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading-screen">
+      <div class="loading-content">
+        <div class="loading-text">Lovel Española Portfolio</div>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
+        </div>
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav-container">
+        <div class="logo">Lovel Española</div>
+        <ul class="nav-menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#certificate">Certificate</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleSidebar()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+      <div class="close-btn" onclick="toggleSidebar()">&times;</div>
+      <ul>
+        <li><a href="#home" onclick="toggleSidebar()">Home</a></li>
+        <li><a href="#about" onclick="toggleSidebar()">About Me</a></li>
+        <li><a href="#skills" onclick="toggleSidebar()">Skills</a></li>
+        <li><a href="#projects" onclick="toggleSidebar()">Projects</a></li>
+        <li>
+          <a href="#certificate" onclick="toggleSidebar()">Certificate</a>
+        </li>
+        <li><a href="#contact" onclick="toggleSidebar()">Contact</a></li>
+      </ul>
+    </div>
+
+    <section id="home">
+      <div class="container">
+        <div class="hero-content fade-in">
+          <h1>Welcome to My Portfolio</h1>
+          <p>
+            Hi, I'm Lovel Española, an IT student passionate about technology
+            and innovation.
+          </p>
+          <a href="#about" class="btn">Learn More About Me</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="about-content fade-in">
+          <div class="about-text">
+            <h2>About Me</h2>
+            <p>
+              I am a dedicated IT student with a passion for learning and
+              creating innovative solutions. My journey in technology has
+              equipped me with a strong foundation in various programming
+              languages and frameworks. I enjoy tackling challenges and turning
+              ideas into reality through code.
+            </p>
+            <div class="about-info">
+              <div class="info-item"><strong>Age:</strong> 21</div>
+              <div class="info-item">
+                <strong>Address:</strong> Moises Padilla, Negros Occidental
+              </div>
+              <div class="info-item">
+                <strong>College Level:</strong> 3rd Year
+              </div>
+              <div class="info-item">
+                <strong>Course:</strong> Bachelor of Science in Information
+                Technology
+              </div>
+            </div>
+          </div>
+          <div class="about-image">
+            <img src="/lovel.jpg" alt="Lovel Española" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container fade-in">
+        <h2>My Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <!-- <img
+              src="https://via.placeholder.com/60x60?text=Web"
+              alt="Web Development"
+              class="skill-icon"
+            /> -->
+            <h3>Web Development</h3>
+            <p>HTML, CSS, JavaScript, PHP</p>
+          </div>
+          <div class="skill-item">
+            <!-- <img
+              src="https://via.placeholder.com/60x60?text=Code"
+              alt="Programming"
+              class="skill-icon"
+            /> -->
+            <h3>Programming</h3>
+            <p>Java, C++, PHP</p>
+          </div>
+          <div class="skill-item">
+            <!-- <img
+              src="https://via.placeholder.com/60x60?text=DB"
+              alt="Database"
+              class="skill-icon"
+            /> -->
+            <h3>Database</h3>
+            <p>MySQL, MongoDB, PostgreSQL</p>
+          </div>
+          <div class="skill-item">
+            <!-- <img
+              src="https://via.placeholder.com/60x60?text=Tools"
+              alt="Tools & Technologies"
+              class="skill-icon"
+            /> -->
+            <h3>Tools & Technologies</h3>
+            <p>Git, Github, Figma, Wordpress</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container fade-in">
+        <h2>My Projects</h2>
+        <div class="projects-grid">
+          <div class="project-item">
+            <img
+              src="https://via.placeholder.com/100%x200?text=E-commerce"
+              alt="E-commerce Website"
+              class="project-image"
+            />
+            <h3>E-commerce Website</h3>
+            <p>
+              A full-stack e-commerce platform built with React and Node.js,
+              featuring user authentication, payment integration, and admin
+              dashboard.
+            </p>
+            <div class="project-tech">
+              <span>React</span>
+              <span>Node.js</span>
+              <span>MongoDB</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="btn">View Demo</a>
+              <a href="#" class="btn">GitHub</a>
+            </div>
+          </div>
+          <div class="project-item">
+            <img
+              src="https://via.placeholder.com/100%x200?text=Task+Management"
+              alt="Task Management App"
+              class="project-image"
+            />
+            <h3>Task Management App</h3>
+            <p>
+              A collaborative task management application with real-time
+              updates, team collaboration features, and progress tracking.
+            </p>
+            <div class="project-tech">
+              <span>Vue.js</span>
+              <span>Express.js</span>
+              <span>PostgreSQL</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="btn">View Demo</a>
+              <a href="#" class="btn">GitHub</a>
+            </div>
+          </div>
+          <div class="project-item">
+            <img
+              src="https://via.placeholder.com/100%x200?text=Dashboard"
+              alt="Data Visualization Dashboard"
+              class="project-image"
+            />
+            <h3>Data Visualization Dashboard</h3>
+            <p>
+              An interactive dashboard for data analysis and visualization,
+              built with Python and modern web technologies.
+            </p>
+            <div class="project-tech">
+              <span>Python</span>
+              <span>D3.js</span>
+              <span>Flask</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="btn">View Demo</a>
+              <a href="#" class="btn">GitHub</a>
+            </div>
+          </div>
+          <div class="project-item">
+            <img
+              src="https://via.placeholder.com/100%x200?text=Mobile+App"
+              alt="Mobile App"
+              class="project-image"
+            />
+            <h3>Mobile App</h3>
+            <p>
+              A cross-platform mobile application for fitness tracking with
+              workout plans, progress monitoring, and social features.
+            </p>
+            <div class="project-tech">
+              <span>React Native</span>
+              <span>Firebase</span>
+              <span>Redux</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="btn">View Demo</a>
+              <a href="#" class="btn">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="certificate">
+      <div class="container fade-in">
+        <h2>Certificates</h2>
+        <div class="certificates">
+          <div class="certificate-item">
+            <img
+              src="/lovel-cert2.png"
+              alt="Python Programming"
+              class="certificate-image"
+            />
+            <h3>
+              Digital Threads fo Resilience: How IoT Are Rewriting Disaster
+              Preparedness and Response Session 2 for 3 hours
+            </h3>
+            <p>Issued by: DICT</p>
+            <p>Date: 2023</p>
+          </div>
+          <div class="certificate-item">
+            <img
+              src="/lovel-cert3.png"
+              alt="Database Management"
+              class="certificate-image"
+            />
+            <h3>Data Privacy Awareness Session 1 for 4 hours</h3>
+            <p>Issued by: DICT</p>
+            <p>Date: 2025</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container fade-in">
+        <h2>Contact Me</h2>
+        <form class="contact-form">
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+          <textarea placeholder="Your Message" rows="5" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <script>
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          document.getElementById("loading-screen").style.opacity = "0";
+          setTimeout(function () {
+            document.getElementById("loading-screen").style.display = "none";
+          }, 500);
+        }, 2000);
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("active");
+      }
+
+      document.addEventListener("click", function (event) {
+        const sidebar = document.getElementById("sidebar");
+        const hamburger = document.querySelector(".hamburger");
+        if (
+          !sidebar.contains(event.target) &&
+          !hamburger.contains(event.target)
+        ) {
+          sidebar.classList.remove("active");
+        }
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("fade-in");
+          }
+        });
+      });
+
+      document.querySelectorAll(".fade-in").forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+
+    <footer>
+      <div class="footer-content">
+        <h3>Lovel Española</h3>
+        <div class="footer-links">
+          <a href="#home">Home</a>
+          <a href="#about">About Me</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#certificate">Certificate</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="social-links">
+          <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 Lovel Española. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
